@@ -1,0 +1,60 @@
+CHRONOTYPE ANALYSIS
+attempts=173579  users=9719  blocks: AM=local 8-13, PM=local 14-20  seed=20250905
+  age<60: attempts=148427 users=8297 rate=0.322 (AM 0.290 / PM 0.349)
+  age>=60: attempts=25152 users=1422 rate=0.379 (AM 0.408 / PM 0.354)
+
+1. SPLIT-HALF RELIABILITY (primary test)
+  age<60: users with >=3 attempts in all four (half, block) cells: 3896 of 8297
+      r(A, B) = +0.2981  95% CI [+0.2692, +0.3264]  Spearman-Brown = +0.4592
+      null r over 200 sims: mean +0.0037, sd 0.0166, P(null r >= observed) = 0.005
+  age>=60: users with >=3 attempts in all four (half, block) cells: 680 of 1422
+      r(A, B) = +0.1537  95% CI [+0.0794, +0.2263]  Spearman-Brown = +0.2664
+      null r over 200 sims: mean -0.0011, sd 0.0377, P(null r >= observed) = 0.005
+
+1b. ROBUSTNESS OF THE SPLIT-HALF RESULT
+  finer baseline (age decade x state x hour), age<60: r = +0.2709 [+0.2418, +0.2995], n = 3961
+  finer baseline (age decade x state x hour), age>=60: r = +0.1546 [+0.0799, +0.2275], n = 673
+  chronological halves (early vs late), age<60: r = +0.2825 [+0.2527, +0.3118], n = 3724
+  chronological halves (early vs late), age>=60: r = +0.1382 [+0.0606, +0.2141], n = 628
+
+2. VARIANCE DECOMPOSITION vs PARAMETRIC BOOTSTRAP NULL
+  age<60: users with >=3 attempts per block: 6446
+      observed var = 0.07086 (sd 0.2662)
+      null var     = 0.04928 (sd 0.2220, sd of null var 0.00091)
+      excess var   = +0.02159 -> implied true between-user sd = 0.1469   p = 0.0020
+  age>=60: users with >=3 attempts per block: 1109
+      observed var = 0.07162 (sd 0.2676)
+      null var     = 0.05597 (sd 0.2366, sd of null var 0.00250)
+      excess var   = +0.01565 -> implied true between-user sd = 0.1251   p = 0.0020
+
+3. HELD-OUT LOG-LOSS (30% of attempts, seed fixed)
+  population curve only              log-loss = 0.60110  delta = +0.00000
+  + per-user block offset, k=1       log-loss = 0.59788  delta = -0.00322
+  + per-user block offset, k=2       log-loss = 0.59258  delta = -0.00852
+  + per-user block offset, k=5       log-loss = 0.59230  delta = -0.00880
+  + per-user block offset, k=10      log-loss = 0.59470  delta = -0.00640
+  + per-user block offset, k=20      log-loss = 0.59715  delta = -0.00395
+  + per-user block offset, k=50      log-loss = 0.59929  delta = -0.00181
+  + per-user block offset, k=100     log-loss = 0.60015  delta = -0.00095
+  + per-user block offset, k=200     log-loss = 0.60061  delta = -0.00049
+
+4. NAIVE PER-USER RATE CORRELATION (noise-dominated, for contrast)
+  pooled   : r(AM rate, PM rate) = +0.0006 95% CI [-0.0220, +0.0231]  n = 7555
+  age<60   : r(AM rate, PM rate) = +0.0048 95% CI [-0.0196, +0.0292]  n = 6446
+  age>=60  : r(AM rate, PM rate) = -0.0254 95% CI [-0.0841, +0.0335]  n = 1109
+
+5. SANITY CHECK: attempts per user vs pick-up rate
+  age<60: n_users=8297  spearman(n_attempts, pick rate)=+0.082 (p=6.22e-14)
+      attempts     (0.999, 7.0]: rate=0.304 (n_users=1750)
+      attempts      (7.0, 14.0]: rate=0.321 (n_users=1700)
+      attempts     (14.0, 21.0]: rate=0.319 (n_users=1695)
+      attempts     (21.0, 28.0]: rate=0.327 (n_users=1594)
+      attempts     (28.0, 53.0]: rate=0.324 (n_users=1558)
+  age>=60: n_users=1422  spearman(n_attempts, pick rate)=+0.024 (p=0.364)
+      attempts     (0.999, 8.0]: rate=0.391 (n_users=319)
+      attempts      (8.0, 14.0]: rate=0.357 (n_users=278)
+      attempts     (14.0, 20.0]: rate=0.397 (n_users=276)
+      attempts     (20.0, 27.0]: rate=0.378 (n_users=271)
+      attempts     (27.0, 51.0]: rate=0.376 (n_users=278)
+
+wrote split_half_scatter.png, index_observed_vs_null.png, naive_rate_scatter.png

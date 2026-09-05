@@ -4,7 +4,12 @@ version = "0.1.0"
 description = "ML coding challenge: predict the best time of day to call a customer."
 requires-python = ">=3.12"
 dependencies = [
+    "joblib>=1.6.0",
+    "lightgbm>=4.7.0",
+    "matplotlib>=3.11.1",
     "pandas>=2.2",
+    "scikit-learn>=1.9.0",
+    "scipy>=1.18.1",
 ]
 
 [build-system]
@@ -16,3 +21,29 @@ packages = ["src/challenge"]
 
 [tool.uv]
 package = true
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.6",
+]
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+extend-select = ["I", "D", "E501", "RUF"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D103"]
+# Shipped challenge stubs; left as provided.
+"src/challenge/__init__.py" = ["D104"]
+"src/challenge/format.py" = ["D101", "D103", "E501"]
+"src/challenge/predict.py" = ["D103"]
+"src/challenge/train.py" = ["D103", "E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

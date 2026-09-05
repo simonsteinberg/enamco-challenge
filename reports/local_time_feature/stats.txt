@@ -1,0 +1,122 @@
+rows=173,579  users=9,719  states=51
+states present: AK AL AR AZ CA CO CT DC DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RI SC SD TN TX UT VA VT WA WI WV WY
+multi-zone states in data: AK FL ID IN KS KY MI ND NE OR SD TN TX
+no-DST states in data: AZ HI
+
+== UTC hour vs local hour ==
+UTC hours used:   [np.int32(0), np.int32(1), np.int32(2), np.int32(3), np.int32(4), np.int32(5), np.int32(6), np.int32(12), np.int32(13), np.int32(14), np.int32(15), np.int32(16), np.int32(17), np.int32(18), np.int32(19), np.int32(20), np.int32(21), np.int32(22), np.int32(23)]
+Local hours used: [np.int16(8), np.int16(9), np.int16(10), np.int16(11), np.int16(12), np.int16(13), np.int16(14), np.int16(15), np.int16(16), np.int16(17), np.int16(18), np.int16(19), np.int16(20)]
+    utc_n  local_n  utc_share  local_share
+0   12979        0     0.0748       0.0000
+1    7722        0     0.0445       0.0000
+2    4092        0     0.0236       0.0000
+3    1948        0     0.0112       0.0000
+4     488        0     0.0028       0.0000
+5      86        0     0.0005       0.0000
+6      38        0     0.0002       0.0000
+7       0        0     0.0000       0.0000
+8       0     3862     0.0000       0.0222
+9       0    13721     0.0000       0.0790
+10      0    14854     0.0000       0.0856
+11      0    15360     0.0000       0.0885
+12    973    15863     0.0056       0.0914
+13   4891    15314     0.0282       0.0882
+14   9372    14681     0.0540       0.0846
+15  12014    14134     0.0692       0.0814
+16  14221    14934     0.0819       0.0860
+17  15138    14596     0.0872       0.0841
+18  15212    15407     0.0876       0.0888
+19  15008    16041     0.0865       0.0924
+20  14638     4812     0.0843       0.0277
+21  14664        0     0.0845       0.0000
+22  14908        0     0.0859       0.0000
+23  15187        0     0.0875       0.0000
+
+== Chi-square goodness of fit vs uniform ==
+UTC hour, support 0-23                 chi2=    141133.8 dof= 23 p=0.000e+00 V=0.1880
+Local hour, support 0-23               chi2=    174175.4 dof= 23 p=0.000e+00 V=0.2089
+Local hour, support 8-20 (observed)    chi2=     14788.0 dof= 12 p=0.000e+00 V=0.0843
+Local hour, support 9-19 (interior)    chi2=       326.7 dof= 10 p=3.448e-64 V=0.0141
+
+== Local-hour share by timezone (support 8-20) ==
+local_hour               n     8     9    10    11    12    13    14    15    16    17    18    19    20
+timezone                                                                                                
+America/Anchorage      353 0.031 0.071 0.110 0.076 0.079 0.110 0.059 0.059 0.093 0.085 0.085 0.113 0.025
+America/Chicago      51390 0.022 0.079 0.085 0.087 0.089 0.092 0.084 0.083 0.086 0.083 0.089 0.093 0.028
+America/Denver        7581 0.023 0.078 0.077 0.092 0.098 0.082 0.089 0.087 0.087 0.087 0.079 0.096 0.026
+America/Los_Angeles  28355 0.021 0.079 0.088 0.089 0.091 0.087 0.087 0.077 0.089 0.084 0.089 0.090 0.028
+America/New_York     81086 0.022 0.080 0.085 0.089 0.092 0.087 0.083 0.081 0.085 0.084 0.089 0.093 0.027
+America/Phoenix       3886 0.027 0.078 0.098 0.082 0.097 0.082 0.085 0.082 0.090 0.080 0.085 0.086 0.028
+Pacific/Honolulu       928 0.017 0.066 0.084 0.091 0.074 0.079 0.088 0.098 0.081 0.099 0.094 0.088 0.041
+
+Divergence from pooled local-hour distribution, timezones:
+                key     n    tvd  jsd_bits
+  America/Anchorage   353 0.0853    0.0071
+   Pacific/Honolulu   928 0.0557    0.0036
+    America/Phoenix  3886 0.0279    0.0009
+     America/Denver  7581 0.0274    0.0007
+America/Los_Angeles 28355 0.0092    0.0001
+    America/Chicago 51390 0.0068    0.0001
+   America/New_York 81086 0.0043    0.0000
+
+States, top 8 by TVD (largest deviation from pooled):
+key   n    tvd  jsd_bits
+ VT 361 0.1159    0.0123
+ RI 347 0.0961    0.0098
+ AK 353 0.0853    0.0071
+ WY 524 0.0826    0.0084
+ DC 236 0.0813    0.0065
+ NH 650 0.0641    0.0067
+ NM 746 0.0625    0.0049
+ SD 659 0.0621    0.0040
+state TVD: median=0.0373 p90=0.0641 max=0.1159
+states with n>=1000: max TVD=0.0595 (MS, n=1483)
+
+independence local_hour x timezone: chi2=123.3 dof=72 p=1.592e-04 Cramer's V=0.0109
+independence local_hour x state:    chi2=955.9 dof=600 p=9.592e-19 Cramer's V=0.0214
+
+== Pick-up rate by local hour vs attempt share ==
+                n   rate  attempt_share  rate_index
+local_hour                                         
+8            3862 0.1015         0.0222      0.3070
+9           13721 0.1848         0.0790      0.5589
+10          14854 0.2928         0.0856      0.8854
+11          15360 0.3642         0.0885      1.1014
+12          15863 0.3919         0.0914      1.1850
+13          15314 0.3388         0.0882      1.0247
+14          14681 0.2520         0.0846      0.7622
+15          14134 0.2278         0.0814      0.6890
+16          14934 0.2649         0.0860      0.8011
+17          14596 0.3534         0.0841      1.0687
+18          15407 0.4458         0.0888      1.3483
+19          16041 0.4950         0.0924      1.4969
+20           4812 0.4734         0.0277      1.4316
+overall pick-up rate = 0.3307
+corr(attempt_share, pick-up rate) over local hours = 0.266
+pick-up rate spread: local 0.102-0.495, UTC 0.118-0.737
+
+== DST sanity check ==
+OH: summer offset=-4.0h  winter offset=-5.0h
+AZ: summer offset=-7.0h  winter offset=-7.0h
+HI: summer offset=-10.0h  winter offset=-10.0h
+CA: summer offset=-7.0h  winter offset=-8.0h
+is_dst               False  True 
+timezone                         
+America/Anchorage      165    188
+America/Chicago      24355  27035
+America/Denver        3558   4023
+America/Los_Angeles  13531  14824
+America/New_York     38872  42214
+America/Phoenix       3886      0
+Pacific/Honolulu       928      0
+                      min   max  nunique
+timezone                                
+America/Anchorage    -9.0  -8.0        2
+America/Chicago      -6.0  -5.0        2
+America/Denver       -7.0  -6.0        2
+America/Los_Angeles  -8.0  -7.0        2
+America/New_York     -5.0  -4.0        2
+America/Phoenix      -7.0  -7.0        1
+Pacific/Honolulu    -10.0 -10.0        1
+
+plots written to /home/simon/enam_challenge/reports/local_time_feature

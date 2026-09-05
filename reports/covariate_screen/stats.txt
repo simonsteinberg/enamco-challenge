@@ -1,0 +1,306 @@
+rows=173579  users=9719  base rate=0.3307
+attempts per user: median=17, max=53
+CAVEAT: rows repeat per user, so every test below treats correlated rows as independent. p-values are optimistic; read the effect sizes, not the stars.
+
+=== 0. Identifier / duplicate-column checks ===
+contract_id == user_id in 100.0% of rows
+contract_signup_date == signup_date in 100.0% of rows
+distinct contracts per user: [np.int64(1)]
+is_first_contract always true: True
+contract_age_days identical to tenure_days: True
+
+=== 1. Marginal association with picked_up ===
+--- has_email: 2 levels, chi2 p=0.214 (dof=1)
+    Cramer's V=0.0030  bias-corrected V=0.0018
+    spread over levels with n>=300: 0.29 pp (2 levels)
+      True                   n=102601 rate=0.3318 [0.3290, 0.3347]
+      False                  n= 70978 rate=0.3290 [0.3255, 0.3324]
+
+--- device_rented: 2 levels, chi2 p=0.365 (dof=1)
+    Cramer's V=0.0022  bias-corrected V=0.0000
+    spread over levels with n>=300: 0.21 pp (2 levels)
+      True                   n= 85995 rate=0.3317 [0.3286, 0.3349]
+      False                  n= 87584 rate=0.3296 [0.3265, 0.3328]
+
+--- product: 3 levels, chi2 p=0.00135 (dof=2)
+    Cramer's V=0.0087  bias-corrected V=0.0080
+    spread over levels with n>=300: 1.54 pp (3 levels)
+      landline               n= 14914 rate=0.3437 [0.3361, 0.3514]
+      mobile                 n= 92588 rate=0.3303 [0.3272, 0.3333]
+      internet               n= 66077 rate=0.3283 [0.3247, 0.3319]
+
+--- campaign_id: 50 levels, chi2 p=0.703 (dof=49)
+    Cramer's V=0.0158  bias-corrected V=0.0000
+    spread over levels with n>=300: 3.07 pp (50 levels)
+      9                      n=  3431 rate=0.3460 [0.3302, 0.3620]
+      3                      n=  3551 rate=0.3430 [0.3276, 0.3588]
+      17                     n=  3413 rate=0.3428 [0.3271, 0.3589]
+      12                     n=  3570 rate=0.3426 [0.3272, 0.3583]
+      41                     n=  3611 rate=0.3426 [0.3273, 0.3582]
+      31                     n=  3458 rate=0.3421 [0.3265, 0.3581]
+      18                     n=  3400 rate=0.3415 [0.3257, 0.3576]
+      42                     n=  3465 rate=0.3400 [0.3244, 0.3559]
+      ... 42 more levels omitted
+
+--- state: 51 levels, chi2 p=6.22e-07 (dof=50)
+    Cramer's V=0.0257  bias-corrected V=0.0192
+    spread over levels with n>=300: 7.34 pp (50 levels)
+      SD                     n=   659 rate=0.3657 [0.3298, 0.4032]
+      DE                     n=   478 rate=0.3619 [0.3201, 0.4059]
+      NE                     n=   982 rate=0.3554 [0.3261, 0.3858]
+      SC                     n=  2788 rate=0.3547 [0.3372, 0.3727]
+      MS                     n=  1483 rate=0.3547 [0.3307, 0.3794]
+      ND                     n=   381 rate=0.3517 [0.3055, 0.4009]
+      NC                     n=  5273 rate=0.3503 [0.3375, 0.3633]
+      MD                     n=  3144 rate=0.3476 [0.3312, 0.3645]
+      ... 43 more levels omitted
+
+--- signup_cohort: 5 levels, chi2 p=0.0051 (dof=4)
+    Cramer's V=0.0092  bias-corrected V=0.0079
+    spread over levels with n>=300: 3.30 pp (5 levels)
+      2025Q2                 n= 50199 rate=0.3345 [0.3304, 0.3386]
+      2025Q3                 n= 63418 rate=0.3320 [0.3283, 0.3357]
+      2025Q4                 n= 40469 rate=0.3284 [0.3238, 0.3329]
+      2026Q1                 n= 18299 rate=0.3226 [0.3159, 0.3294]
+      2026Q2                 n=  1194 rate=0.3015 [0.2761, 0.3281]
+
+--- age_cohort: 4 levels, chi2 p=1.71e-66 (dof=3)
+    Cramer's V=0.0421  bias-corrected V=0.0419
+    spread over levels with n>=300: 4.91 pp (4 levels)
+      55+                    n= 37419 rate=0.3643 [0.3594, 0.3692]
+      45-54                  n= 33507 rate=0.3393 [0.3343, 0.3444]
+      <=34                   n= 47899 rate=0.3160 [0.3119, 0.3202]
+      35-44                  n= 54754 rate=0.3152 [0.3113, 0.3191]
+
+--- tenure_q: 4 levels, chi2 p=0.000273 (dof=3)
+    Cramer's V=0.0105  bias-corrected V=0.0096
+    spread over levels with n>=300: 1.34 pp (4 levels)
+      Q2                     n= 43372 rate=0.3385 [0.3341, 0.3430]
+      Q3                     n= 43372 rate=0.3304 [0.3260, 0.3349]
+      Q4                     n= 43370 rate=0.3286 [0.3242, 0.3330]
+      Q1                     n= 43465 rate=0.3251 [0.3207, 0.3296]
+
+--- age: Spearman=0.0397 (p=1.35e-61), 
+    point-biserial=0.0428 (p=3.26e-71)
+    spread over 5 quantile bins: 5.25 pp
+      (22.999, 33.0]         n= 40098 rate=0.3145 [0.3100, 0.3191]
+      (33.0, 38.0]           n= 33171 rate=0.3166 [0.3116, 0.3216]
+      (38.0, 45.0]           n= 33662 rate=0.3210 [0.3160, 0.3260]
+      (45.0, 56.0]           n= 34294 rate=0.3385 [0.3335, 0.3435]
+      (56.0, 95.0]           n= 32354 rate=0.3670 [0.3618, 0.3723]
+
+--- tenure_days: Spearman=0.0018 (p=0.445), 
+    point-biserial=0.0006 (p=0.817)
+    spread over 5 quantile bins: 1.97 pp
+      (0.499, 37.667]        n= 34719 rate=0.3209 [0.3160, 0.3258]
+      (37.667, 80.667]       n= 34770 rate=0.3406 [0.3356, 0.3456]
+      (80.667, 131.042]      n= 34673 rate=0.3332 [0.3283, 0.3382]
+      (131.042, 197.625]     n= 34711 rate=0.3287 [0.3237, 0.3336]
+      (197.625, 358.958]     n= 34706 rate=0.3300 [0.3251, 0.3350]
+
+--- contract_age_days: Spearman=0.0018 (p=0.445), 
+    point-biserial=0.0006 (p=0.817)
+    spread over 5 quantile bins: 1.97 pp
+      (0.499, 37.667]        n= 34719 rate=0.3209 [0.3160, 0.3258]
+      (37.667, 80.667]       n= 34770 rate=0.3406 [0.3356, 0.3456]
+      (80.667, 131.042]      n= 34673 rate=0.3332 [0.3283, 0.3382]
+      (131.042, 197.625]     n= 34711 rate=0.3287 [0.3237, 0.3336]
+      (197.625, 358.958]     n= 34706 rate=0.3300 [0.3251, 0.3350]
+
+--- local_hour (reference: the feature we already know matters)
+--- local_hour: 13 levels, chi2 p=0 (dof=12)
+    Cramer's V=0.2067  bias-corrected V=0.2065
+    spread over levels with n>=300: 39.35 pp (13 levels)
+      19                     n= 16041 rate=0.4950 [0.4872, 0.5027]
+      20                     n=  4812 rate=0.4734 [0.4593, 0.4875]
+      18                     n= 15407 rate=0.4458 [0.4380, 0.4537]
+      12                     n= 15863 rate=0.3919 [0.3843, 0.3995]
+      11                     n= 15360 rate=0.3642 [0.3566, 0.3718]
+      17                     n= 14596 rate=0.3534 [0.3457, 0.3612]
+      13                     n= 15314 rate=0.3388 [0.3314, 0.3464]
+      10                     n= 14854 rate=0.2928 [0.2855, 0.3002]
+      16                     n= 14934 rate=0.2649 [0.2579, 0.2720]
+      14                     n= 14681 rate=0.2520 [0.2451, 0.2591]
+      15                     n= 14134 rate=0.2278 [0.2210, 0.2348]
+      9                      n= 13721 rate=0.1848 [0.1784, 0.1914]
+      8                      n=  3862 rate=0.1015 [0.0924, 0.1114]
+
+=== 2. Confounding checks ===
+campaign x hour attempt share: max |campaign - pooled| = 0.0129 (pooled share per hour ~ 0.0769)
+campaign x hour attempt-count chi2 p=0.85
+campaign x month attempt-count chi2 p=0.852
+months each campaign is active in: min=12 max=12
+pick-up rate by calendar month index:
+      m0   n=   967 rate=0.3237
+      m1   n=  3372 rate=0.3399
+      m2   n=  6003 rate=0.3423
+      m3   n=  8600 rate=0.3351
+      m4   n= 11062 rate=0.3301
+      m5   n= 13858 rate=0.3314
+      m6   n= 15755 rate=0.3321
+      m7   n= 18845 rate=0.3302
+      m8   n= 21284 rate=0.3368
+      m9   n= 21416 rate=0.3294
+      m10  n= 25980 rate=0.3271
+      m11  n= 26437 rate=0.3246
+tenure vs calendar time correlation (Spearman): 0.466
+
+=== 3. Decisive test: does the covariate bend the hour curve? ===
+--- has_email: hour-shape test (2 levels)
+    LR main effect=0.6 | LR interaction=16.8 on 12 dof, p=0.156
+    AIC hour+main=212704  AIC hour*cov=212711  gain=-7 (additive wins)
+    normalised-curve deviation: max=0.032 mean=0.013
+      False                  best hour=19  top3=(19, 20, 18)
+      True                   best hour=19  top3=(19, 20, 18)
+    same best hour across levels: True | same top-3 set: True
+
+--- device_rented: hour-shape test (2 levels)
+    LR main effect=0.7 | LR interaction=19.0 on 12 dof, p=0.0878
+    AIC hour+main=212703  AIC hour*cov=212708  gain=-5 (additive wins)
+    normalised-curve deviation: max=0.027 mean=0.012
+      False                  best hour=19  top3=(19, 20, 18)
+      True                   best hour=19  top3=(19, 20, 18)
+    same best hour across levels: True | same top-3 set: True
+
+--- product: hour-shape test (3 levels)
+    LR main effect=20.4 | LR interaction=387.3 on 24 dof, p=2.98e-67
+    AIC hour+main=212686  AIC hour*cov=212346  gain=+339 (interaction wins)
+    normalised-curve deviation: max=0.346 mean=0.078
+      internet               best hour=19  top3=(19, 20, 18)
+      landline               best hour=19  top3=(19, 11, 10)
+      mobile                 best hour=19  top3=(19, 20, 18)
+    same best hour across levels: True | same top-3 set: False
+
+--- campaign_id: hour-shape test (50 levels)
+    LR main effect=45.3 | LR interaction=550.5 on 588 dof, p=0.864
+    AIC hour+main=212755  AIC hour*cov=213380  gain=-626 (additive wins)
+    normalised-curve deviation: max=0.261 mean=0.058
+      1                      best hour=19  top3=(19, 18, 11)
+      2                      best hour=18  top3=(18, 19, 12)
+      3                      best hour=19  top3=(19, 18, 12)
+      4                      best hour=19  top3=(19, 18, 17)
+      5                      best hour=19  top3=(19, 18, 12)
+      6                      best hour=19  top3=(19, 18, 17)
+      7                      best hour=19  top3=(19, 18, 11)
+      8                      best hour=19  top3=(19, 18, 11)
+      9                      best hour=19  top3=(19, 18, 11)
+      10                     best hour=19  top3=(19, 18, 17)
+      11                     best hour=19  top3=(19, 12, 18)
+      12                     best hour=19  top3=(19, 18, 12)
+      13                     best hour=19  top3=(19, 18, 11)
+      14                     best hour=19  top3=(19, 18, 12)
+      15                     best hour=19  top3=(19, 18, 12)
+      16                     best hour=19  top3=(19, 18, 12)
+      17                     best hour=19  top3=(19, 18, 12)
+      18                     best hour=19  top3=(19, 18, 12)
+      19                     best hour=19  top3=(19, 18, 12)
+      20                     best hour=18  top3=(18, 19, 12)
+      21                     best hour=19  top3=(19, 18, 11)
+      22                     best hour=19  top3=(19, 18, 12)
+      23                     best hour=19  top3=(19, 18, 17)
+      24                     best hour=19  top3=(19, 18, 12)
+      25                     best hour=18  top3=(18, 19, 11)
+      26                     best hour=19  top3=(19, 18, 11)
+      27                     best hour=19  top3=(19, 18, 12)
+      28                     best hour=19  top3=(19, 12, 18)
+      29                     best hour=19  top3=(19, 18, 11)
+      30                     best hour=19  top3=(19, 18, 12)
+      31                     best hour=19  top3=(19, 18, 12)
+      32                     best hour=19  top3=(19, 18, 12)
+      33                     best hour=19  top3=(19, 18, 12)
+      34                     best hour=19  top3=(19, 11, 12)
+      35                     best hour=19  top3=(19, 18, 12)
+      36                     best hour=19  top3=(19, 18, 12)
+      37                     best hour=19  top3=(19, 18, 12)
+      38                     best hour=19  top3=(19, 18, 12)
+      39                     best hour=19  top3=(19, 18, 13)
+      40                     best hour=19  top3=(19, 18, 12)
+      41                     best hour=19  top3=(19, 18, 12)
+      42                     best hour=18  top3=(18, 19, 12)
+      43                     best hour=19  top3=(19, 18, 12)
+      44                     best hour=18  top3=(18, 19, 12)
+      45                     best hour=19  top3=(19, 18, 12)
+      46                     best hour=19  top3=(19, 18, 11)
+      47                     best hour=19  top3=(19, 18, 12)
+      48                     best hour=19  top3=(19, 18, 11)
+      49                     best hour=19  top3=(19, 18, 17)
+      50                     best hour=19  top3=(19, 18, 12)
+    same best hour across levels: False | same top-3 set: False
+
+--- timezone: hour-shape test (7 levels)
+    LR main effect=2.7 | LR interaction=119.9 on 72 dof, p=0.000344
+    AIC hour+main=212712  AIC hour*cov=212736  gain=-24 (additive wins)
+    normalised-curve deviation: max=0.189 mean=0.031
+      America/Chicago        best hour=19  top3=(19, 20, 18)
+      America/Denver         best hour=19  top3=(19, 20, 18)
+      America/Los_Angeles    best hour=19  top3=(19, 20, 18)
+      America/New_York       best hour=19  top3=(19, 20, 18)
+      America/Phoenix        best hour=19  top3=(19, 18, 12)
+    same best hour across levels: True | same top-3 set: False
+
+--- age_cohort: hour-shape test (4 levels)
+    LR main effect=410.2 | LR interaction=3522.6 on 36 dof, p=0
+    AIC hour+main=212298  AIC hour*cov=208847  gain=+3451 (interaction wins)
+    normalised-curve deviation: max=0.632 mean=0.153
+      <=34                   best hour=19  top3=(19, 20, 18)
+      35-44                  best hour=19  top3=(19, 20, 18)
+      45-54                  best hour=19  top3=(19, 20, 18)
+      55+                    best hour=10  top3=(10, 11, 15)
+    same best hour across levels: False | same top-3 set: False
+
+--- tenure_q: hour-shape test (4 levels)
+    LR main effect=15.1 | LR interaction=39.4 on 36 dof, p=0.322
+    AIC hour+main=212693  AIC hour*cov=212726  gain=-33 (additive wins)
+    normalised-curve deviation: max=0.067 mean=0.018
+      Q1                     best hour=20  top3=(20, 19, 18)
+      Q2                     best hour=19  top3=(19, 20, 18)
+      Q3                     best hour=19  top3=(19, 18, 20)
+      Q4                     best hour=19  top3=(19, 20, 18)
+    same best hour across levels: False | same top-3 set: False
+
+--- signup_cohort: hour-shape test (5 levels)
+    LR main effect=10.9 | LR interaction=83.6 on 48 dof, p=0.00111
+    AIC hour+main=212699  AIC hour*cov=212712  gain=-12 (additive wins)
+    normalised-curve deviation: max=0.099 mean=0.026
+      2025Q2                 best hour=20  top3=(20, 19, 18)
+      2025Q3                 best hour=19  top3=(19, 20, 18)
+      2025Q4                 best hour=19  top3=(19, 20, 18)
+      2026Q1                 best hour=18  top3=(18, 19, 20)
+    same best hour across levels: False | same top-3 set: False
+
+=== 3b. Is the product hour-effect just age in disguise? ===
+share of each product's rows by age cohort:
+      internet   <=34=0.230  35-44=0.305  45-54=0.214  55+=0.251
+      landline   <=34=0.099  35-44=0.156  45-54=0.229  55+=0.517
+      mobile     <=34=0.337  35-44=0.349  45-54=0.172  55+=0.142
+mean age by product: {'internet': 45.9, 'landline': 55.9, 'mobile': 41.5}
+      product within age <=34   n= 47899 AIC gain=-18 max_dev=0.201 best hours={'internet': 19, 'landline': 19, 'mobile': 19}
+      product within age 35-44  n= 54754 AIC gain=-24 max_dev=0.187 best hours={'internet': 19, 'landline': 19, 'mobile': 19}
+      product within age 45-54  n= 33507 AIC gain=-24 max_dev=0.156 best hours={'internet': 19, 'landline': 18, 'mobile': 19}
+      product within age 55+    n= 37419 AIC gain=-0 max_dev=0.150 best hours={'internet': 10, 'landline': 10, 'mobile': 10}
+      age within product internet  n= 66077 AIC gain=+1310 max_dev=0.593 best hours={'<=34': 19, '35-44': 19, '45-54': 19, '55+': 10}
+      age within product landline  n= 14914 AIC gain=+469 max_dev=0.760 best hours={'<=34': 19, '35-44': 19, '45-54': 18, '55+': 10}
+      age within product mobile    n= 92588 AIC gain=+1280 max_dev=0.651 best hours={'<=34': 19, '35-44': 19, '45-54': 19, '55+': 10}
+
+=== 3c. Where exactly does the age flip happen? ===
+      age (0, 30]     n= 20704 best=19 top3=[19, 20, 18] rate@10=0.171 rate@19=0.504
+      age (30, 35]    n= 33624 best=19 top3=[19, 20, 18] rate@10=0.234 rate@19=0.579
+      age (35, 40]    n= 29395 best=19 top3=[19, 20, 18] rate@10=0.229 rate@19=0.553
+      age (40, 45]    n= 23208 best=20 top3=[20, 19, 18] rate@10=0.268 rate@19=0.553
+      age (45, 50]    n= 17827 best=20 top3=[20, 19, 18] rate@10=0.321 rate@19=0.475
+      age (50, 55]    n= 13873 best=19 top3=[19, 20, 18] rate@10=0.300 rate@19=0.518
+      age (55, 60]    n= 11504 best=20 top3=[20, 18, 19] rate@10=0.331 rate@19=0.415
+      age (60, 65]    n=  8309 best=10 top3=[10, 15, 11] rate@10=0.512 rate@19=0.231
+      age (65, 200]   n= 15135 best=10 top3=[10, 11, 15] rate@10=0.511 rate@19=0.225
+
+=== 4. Verdict table ===
+covariate          V_corr  spread_pp  max_dev  AIC gain  shape / call
+has_email          0.0018       0.29    0.032        -7  no signal / DROP
+device_rented      0.0000       0.21    0.027        -5  no signal / DROP
+product            0.0080       1.54    0.346       339  bends, but confounded with age / DROP (use age)
+campaign_id        0.0000       3.07    0.261      -626  no signal / DROP
+timezone           0.0192       7.34    0.189       -24  no signal / DROP
+age_cohort         0.0419       4.91    0.632      3451  changes the ranking / KEEP
+tenure_q           0.0096       1.34    0.067       -33  no signal / DROP
+signup_cohort      0.0079       3.30    0.099       -12  no signal / DROP
+

@@ -77,6 +77,10 @@ It does NOT tell you how good your model is — that's our job.
 | `picked_up`             | bool      | The target                                 |
 | `campaign_id`           | int       | Categorical                                |
 
+Notes to myself:
+- mixture of numerical and nominal values.
+- what is device_rented? usually I would ask a domain expert
+
 ### `data/eval_targets.csv`
 
 One row per `(user_id, date)` to predict for. Drawn from the most recent
