@@ -1,0 +1,18 @@
+[project]
+name = "best-time-to-call-challenge"
+version = "0.1.0"
+description = "ML coding challenge: predict the best time of day to call a customer."
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/challenge"]
+
+[tool.uv]
+package = true
